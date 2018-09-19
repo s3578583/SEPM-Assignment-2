@@ -1,0 +1,7 @@
+{001, Italian Cooking,10, 500,}
+{002, Seafood,10, 700,}
+{003, Sewing,10, 300,}
+{004, Creative writing,15, 200,}
+
+
+{005, Business writing,15,670.0,}
