@@ -104,7 +104,7 @@ public class CMSDriver
 							System.out.println("2 - View a Students details:");
 							//System.out.println("2 - Add staff hours:");
 							//System.out.println("3 - Add new Course:");
-							//System.out.println("4 - View Course Details:");
+							System.out.println("4 - View Course Details:");
 							System.out.println("\n0 - Logout");
 							selection = input.nextInt();
 
@@ -127,8 +127,10 @@ public class CMSDriver
 								std2.viewStudentDetails(checkID);
 								break;
 								
-
-						
+							case 4:
+								Course crs = new Course ("", "", 0, 2);
+								crs.viewCourseDetails();
+								break;
 
 							case 0:
 								// logout the user and result values
