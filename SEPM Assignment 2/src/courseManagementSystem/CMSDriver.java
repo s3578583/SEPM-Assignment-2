@@ -1,0 +1,195 @@
+package courseManagementSystem;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class CMSDriver
+{
+
+	public static void main(String[] args)
+	{
+		// login boolean value
+				boolean login = false;
+				do
+				{
+					// scanner to get user input
+
+					@SuppressWarnings("resource")
+					Scanner input = new Scanner(System.in);
+					System.out.print("Please enter your username:");
+					// variable for user name
+					String userName = input.nextLine();
+					System.out.print("Please enter your password:");
+					// variable for password
+					String password = input.nextLine();
+					String typeOfUser = "";
+					
+					// variable for file location
+					// please change the path to your specific path of the users.txt file
+					File file = new File(System.getProperty("user.dir"));
+
+					String path = file.getAbsolutePath()+"\\src\\users.txt";
+					
+					String fileName = path;
+					
+					try
+					{
+						// file reader to read the fileName variable above
+						FileReader filereader = new FileReader(fileName);
+
+						BufferedReader bufferedReader = new BufferedReader(filereader);
+						// variable for lines in the file
+						String lineInput;
+						// set user to null once they have logged out
+						String user = null;
+						// set password to null once they have logged out
+						String pass = null;
+
+						List<String> list = new ArrayList<String>();
+						// read through document while there is a new line in the file
+						while ((lineInput = bufferedReader.readLine()) != null)
+						{
+							list.add(lineInput);
+							// array to split text on line to get user name and password
+							String[] checkCredentials = lineInput.split(" ");
+							user = checkCredentials[0];
+							pass = checkCredentials[1];
+
+							// condition to check if user exists in the file
+							if (userName.equals(user) && password.equals(pass))
+							{
+								System.out.println("Successfully logged in as: " + user);
+								typeOfUser = checkCredentials[2];
+								login = true;
+								break;
+							}
+
+						}
+						// not equal condition to display message to user
+						if (!userName.equals(user) && !password.equals(pass))
+						{
+							System.out.println("\nIncorrect password for " + userName + " user please try again");
+
+						}
+						// close buffered reader
+						bufferedReader.close();
+
+						// catch exception if file not found
+					} catch (FileNotFoundException ex)
+					{
+						System.out.println("Unable to open file '" + fileName + "'");
+					}
+					// catch exception if IOException
+					catch (IOException ex)
+					{
+						System.out.println("Error reading file '" + fileName + "'");
+
+					}
+					// variable to get user selection
+					int selection;
+
+					// menu options for an Course manager user
+					if (typeOfUser.equals("course") && login == true)
+					{
+						do
+						{
+							System.out.println("\nPlease enter your selection:");
+							System.out.println("1 - Add new Student:");
+							System.out.println("2 - View a Students details:");
+							//System.out.println("2 - Add staff hours:");
+							//System.out.println("3 - Add new Course:");
+							System.out.println("4 - View Course Details:");
+							System.out.println("\n0 - Logout");
+							selection = input.nextInt();
+
+							// switch, depending on option do certain action
+							switch (selection)
+							{
+
+							case 1:
+					
+								Student std1 = new Student("", "", "", "", "", "");
+								std1.addStudent();
+								break;
+
+							case 2:
+								
+								Student std2 = new Student("", "", "", "", "", "");
+								Scanner scan = new Scanner(System.in);
+								System.out.print("Please enter student ID to search:");
+								String checkID = scan.nextLine();
+								std2.viewStudentDetails(checkID);
+								break;
+								
+							case 4:
+								Course crs = new Course ("", "", 0, 2);
+								crs.viewCourseDetails();
+								break;
+
+							case 0:
+								// logout the user and result values
+								userName = null;
+								password = null;
+								System.out.print("You have been logged out\n");
+								// set variable to logout
+								login = false;
+							}
+
+						} while (selection != 0);
+					}
+					// menu options for an Admin user
+					else if (typeOfUser.equals("admin") && login == true)
+					{
+
+						do
+						{
+							System.out.println("\n1 - ");
+							System.out.println("\n2 - ");
+							System.out.println("\n3 - ");
+							System.out.println("\n4 - ");
+							System.out.println("\n5 - ");
+							System.out.println("\n6 - ");
+							System.out.println("\n0 - Quit");
+							selection = input.nextInt();
+					
+							switch (selection)
+							{
+
+							case 1:
+								
+								break;
+								
+							case 2:
+							
+								break;
+
+						
+						
+							case 0:
+								// logout the user and result values
+								userName = null;
+								password = null;
+								System.out.print("You have been logged out\n");
+								// set variable to logout
+								login = false;
+
+							}
+
+						} while (selection != 0);
+					}
+
+				} while (login == false);
+
+			}
+
+		
+
+	}
+
+

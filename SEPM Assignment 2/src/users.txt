@@ -1,0 +1,4 @@
+User login Details
+Username password type_of_user 
+cm 1234 course
+admin1 9999 admin
