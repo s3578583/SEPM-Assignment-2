@@ -78,7 +78,6 @@ public class Student
 			String phone) throws FileNotFoundException
 	{
 		File file = new File(System.getProperty("user.dir"));
-		System.out.println(studentIDs);
 		String path = file.getAbsolutePath() + "\\src\\studentDetails.txt";
 		File created = new File(path);
 		try
@@ -97,12 +96,10 @@ public class Student
 		{
 			System.out.println("COULD NOT ADD RECORD!!");
 		}
-
 	}
 
 	public void setCoursePrice(String courseID)
 	{
-
 		File file = new File(System.getProperty("user.dir"));
 		String path = file.getAbsolutePath() + "\\src\\courseDetails.txt";
 		String fileName = path;
@@ -145,28 +142,22 @@ public class Student
 		catch (IOException ex)
 		{
 			System.out.println("Error reading file '" + fileName + "'");
-
 		}
-
 	}
 
-		
-	
 	public void viewStudentDetails(String checkStudentID, int selection)
 	{
 		File file = new File(System.getProperty("user.dir"));
-
 		String path = file.getAbsolutePath() + "\\src\\studentDetails.txt";
 		String fileName = path;
+		
 		try
 		{
 			// file reader to read the fileName variable above
 			FileReader filereader = new FileReader(fileName);
-
 			BufferedReader bufferedReader = new BufferedReader(filereader);
 			// variable for lines in the file
 			String lineInput;
-
 			String printstudentID = null;
 
 			List<String> list = new ArrayList<String>();
@@ -186,18 +177,15 @@ public class Student
 				address = jobSearch[3];
 				email = jobSearch[4];
 				phone = jobSearch[5];
-
 				//depending on which int value passed in, do a certain 
 				//logic method
 				if (selection == 1)
 				{
 					if (printstudentID.equals(checkStudentID))
 					{
-
 						for (int i = 0; i < jobSearch.length; i++)
 						{
 							jobSearch[i] = jobSearch[i].replaceAll("[\\[\\](){}]", "");
-
 						}
 						studentID = printstudentID;
 						System.out.println("");
@@ -218,12 +206,7 @@ public class Student
 								"-------------------------------------------------------------------------------------"
 										+ "---------------");
 					}
-				
-					
-
-				}
-				
-
+				}	
 				//depending on which int value passed in, do a certain 
 				//logic method
 				else if (selection == 2)
@@ -239,8 +222,8 @@ public class Student
 					//depending on option do certain action
 					if (confirm == 1)
 					{
-
 						Enrolment enroll = new Enrolment();
+					
 						@SuppressWarnings("resource")
 						Scanner scan2 = new Scanner(System.in);
 						System.out.println("Please enter course ID to enrol student in:");
@@ -250,7 +233,6 @@ public class Student
 						
 						System.out.println("Are they an existing student?:");
 						System.out.print("1. Yes \n2. No\n");
-						
 						//if existing student, give discount
 						int input = scan2.nextInt();
 						if (input == 1)
@@ -260,20 +242,18 @@ public class Student
 						//write to file
 						enroll.enrol(courseEnrolID, checkStudentID,coursePrice );
 						break;
-
 					}
 					
 					if (confirm == 2)
 					{
-						@SuppressWarnings("resource")
-						Scanner scan2 = new Scanner(System.in);
+						//@SuppressWarnings("resource")
+						//Scanner scan2 = new Scanner(System.in);
 						System.out.println("Please enter student ID to enrol");
-						String enrolID = scan2.nextLine();
+						String enrolID = scan1.nextLine();
 						//enrol a specific student into a course
 						viewStudentDetails(enrolID, 2);
+						break;
 					}
-					break;
-
 				}
 
 				else if (selection == 3)
@@ -285,17 +265,15 @@ public class Student
 						studentID = null;
 						exist = true;
 						break;
-
 					}
 					else
 						exist = false;
 				}
-
 			}
-			}
+		}
 			// close buffered reader
 			bufferedReader.close();
-		} catch (FileNotFoundException ex)
+	} catch (FileNotFoundException ex)
 		{
 			System.out.println("Unable to open file '" + fileName + "'");
 		}

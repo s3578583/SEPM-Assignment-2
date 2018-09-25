@@ -19,7 +19,7 @@ public class Course
 	private int maxNum;
 	private double cost;
 
-	//constructor
+	// constructor
 	public Course(String courseID, String courseName, int maxStudents, double coursePrice)
 	{
 
@@ -29,14 +29,13 @@ public class Course
 		this.cost = coursePrice;
 	}
 
-	
-	//Writer to write details to text file
+	// Writer to write details to text file
 	public void writeUsingFileWriter(String courseID, String description, int maxNum, double cost)
 			throws FileNotFoundException
 	{
-		//find users current directory
+		// find users current directory
 		File file = new File(System.getProperty("user.dir"));
-		//then access the course details text file
+		// then access the course details text file
 		String path = file.getAbsolutePath() + "\\src\\courseDetails.txt";
 		File created = new File(path);
 		try
@@ -57,7 +56,7 @@ public class Course
 
 	}
 
-	//delete line in text file
+	// delete line in text file
 	public void deleteLine()
 	{
 		try
@@ -73,10 +72,10 @@ public class Course
 			cost = scan.nextDouble();
 			while ((line = file.readLine()) != null)
 			{
-				//check for line with course ID
+				// check for line with course ID
 				if (line.contains(courseID))
 				{
-					//read text file and assign line to variables for rewriting
+					// read text file and assign line to variables for rewriting
 					String[] checkCredentials = line.split("}");
 					String[] jobSearch = checkCredentials[0].split(",");
 					courseID = jobSearch[0].replace("{", "");
@@ -87,7 +86,7 @@ public class Course
 				input += line + '\n';
 			}
 
-			//assign where to write new variables
+			// assign where to write new variables
 			FileOutputStream File = new FileOutputStream("src/courseDetails.txt");
 			File.write(input.getBytes());
 			writeUsingFileWriter(courseID, description, maxNum, cost);
@@ -115,8 +114,6 @@ public class Course
 			// variable for lines in the file
 			String lineInput;
 
-			
-
 			List<String> list = new ArrayList<String>();
 			// read through document while there is a new line in the file
 			System.out.println("-------------------------------------------------------------------------------------");
@@ -136,7 +133,6 @@ public class Course
 
 					maxNum = Integer.parseInt(individualRecord[2]);
 					cost = Double.parseDouble(individualRecord[3]);
-					
 
 					System.out.format("%10s %30s %20s %10.2f  ", courseID, description, maxNum, cost);
 					System.out.println();
@@ -145,13 +141,17 @@ public class Course
 			}
 			System.out.println("-------------------------------------------------------------------------------------");
 			// close buffered reader
-			System.out.print("1. Edit course fee\n2. Back to Menu\n");
+			System.out.print("1. Edit course fee\n2. View Specific Course Numbers\n3. Back to Menu\n");
 			int input = scan.nextInt();
 			if (input == 1)
 			{
 				deleteLine();
 			}
-			else if (input <= 0 || input > 2)
+			else if (input == 2)
+			{
+				printCourseDetails();
+			}
+			else if (input <= 0 || input > 3)
 			{
 				System.out.println("Invalid input");
 				viewCourseDetails();
@@ -169,11 +169,70 @@ public class Course
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	public void printCourseDetails()
+	{
+
+		@SuppressWarnings("resource")
+		Scanner scan = new Scanner(System.in);
+		File file = new File(System.getProperty("user.dir"));
+		String path = file.getAbsolutePath() + "\\src\\student_course_details.txt";
+		String fileName = path;
+		try
+		{
+			// file reader to read the fileName variable above
+			FileReader filereader = new FileReader(fileName);
+
+			BufferedReader bufferedReader = new BufferedReader(filereader);
+			// variable for lines in the file
+			String lineInput;
+			System.out.println("Enter Course ID to see details");
+			String courseIdDetails = scan.nextLine();
+			String studentID = null;
+			double cost = 0;
+			double totalCost = 0;
+			List<String> list = new ArrayList<String>();
+			// read through document while there is a new line in the file
+			System.out.println("-------------------------------------------------------------------------------------");
+			System.out.printf("%10s %30s", "Student ID", "Fee Paid $");
+			System.out.println();
+			System.out.println("-------------------------------------------------------------------------------------");
+			while ((lineInput = bufferedReader.readLine()) != null)
+			{
+				if (lineInput.length() > 0)
+				{
+					list.add(lineInput);
+					// array to split text on line to get user name and password
+					String[] checkCredentials = lineInput.split(" }");
+					String[] individualRecord = checkCredentials[0].split(",");
+					courseID = individualRecord[0].replace("{", "");
+					studentID = individualRecord[1];
+					cost = Double.parseDouble(individualRecord[2]);
+					//if correct course, add total amount, and 
+					//print out student ID and cost
+					if (courseID.equals(courseIdDetails))
+					{
+						totalCost += cost;
+						System.out.format("%10s %30.2f  ", studentID, cost);
+						System.out.println();
+					}
+				}
+			}
+			System.out.println();
+			System.out.format("%15s %25.2f  ", "Total Amount $:", totalCost);
+			System.out.println();
+			System.out.println("-------------------------------------------------------------------------------------");
+			System.out.println();
+			bufferedReader.close();
+			
+		} catch (FileNotFoundException ex)
+		{
+			System.out.println("Unable to open file '" + fileName + "'");
+		}
+		// catch exception if IOException
+		catch (IOException ex)
+		{
+			System.out.println("Error reading file '" + fileName + "'");
+		}
+	}
 }

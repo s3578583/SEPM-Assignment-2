@@ -3,11 +3,11 @@ package courseManagementSystem;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 public class Enrolment
 {
@@ -16,13 +16,13 @@ public class Enrolment
 
 	public void enrol(String courseEnrolID, String enrolID, double price)
 	{
-
 		try
 		{
 			BufferedReader file = new BufferedReader(new FileReader("src/student_course_details.txt"));
 			String line;
-			String input = "";
-
+			//String input = "";
+			//int numStudents = 0;
+		
 			while ((line = file.readLine()) != null)
 			{
 				if (line.length() > 0)
@@ -42,24 +42,19 @@ public class Enrolment
 							System.out.println("Student is already enrolled in this subject");
 							exist = true;
 							break;
-						}
-
-					}
-					input += line + '\n';
+						}	
+						//input += line + '\n';
+					}	
 				}
+				
 			}
-
+	
 			if (exist == false)
 			{
-
 				// assign where to write new variables
-				FileOutputStream File = new FileOutputStream("src/student_course_details.txt");
-				File.write(input.getBytes());
 				writeUsingFileWriter(courseEnrolID, enrolID, price);
 				file.close();
-				File.close();
 			}
-
 		} catch (Exception e)
 		{
 			System.out.println("Problem reading file.");
@@ -73,6 +68,9 @@ public class Enrolment
 		// then access the course details text file
 		String path = file.getAbsolutePath() + "\\src\\student_course_details.txt";
 		File created = new File(path);
+		System.out.println(courseEnrolID);
+		System.out.println(enrolID);
+		System.out.println(price);
 		try
 		{
 			if (created.exists() == false)
@@ -88,12 +86,11 @@ public class Enrolment
 		{
 			System.out.println("COULD NOT UPDATE RECORD!!");
 		}
-
+		
 	}
-
+/*
 	public void checkEnrol(String courseEnrolID, String enrolID)
 	{
-
 		try
 		{
 			BufferedReader file = new BufferedReader(new FileReader("src/student_course_details.txt"));
@@ -122,7 +119,7 @@ public class Enrolment
 							break;
 						}
 
-						input += line + '\n';
+					
 
 					}
 
@@ -135,5 +132,5 @@ public class Enrolment
 		}
 
 	}
-
+*/
 }

@@ -101,7 +101,7 @@ public class CMSDriver
 				do
 				{
 					System.out.println("\nPlease enter your selection:");
-					System.out.println("1 - Add new Student:");
+					System.out.println("\n1 - Add new Student:");
 					System.out.println("2 - View a Students details:");
 					System.out.println("3 - Enrol a Student in a Course:");
 					System.out.println("4 - View Course Details:");
@@ -138,50 +138,15 @@ public class CMSDriver
 						String enrolID = scan1.nextLine();
 						//pass student ID and specific int value
 						std3.viewStudentDetails(enrolID, 2);
-
 						break;
 
 					case 4:
 						Course crs = new Course("", "", 0, 2);
 						crs.viewCourseDetails();
 						break;
-
-					case 0:
-						// logout the user and result values
-						userName = null;
-						password = null;
-						System.out.print("You have been logged out\n");
-						// set variable to logout
-						login = false;
-
-					}
-
-				} while (selection != 0);
-			}
-			// menu options for an Admin user
-			else if (typeOfUser.equals("admin") && login == true)
-			{
-
-				do
-				{
-					System.out.println("\n1 - ");
-					System.out.println("\n2 - ");
-					System.out.println("\n3 - ");
-					System.out.println("\n4 - ");
-					System.out.println("\n5 - ");
-					System.out.println("\n6 - ");
-					System.out.println("\n0 - Quit");
-					selection = input.nextInt();
-
-					switch (selection)
-					{
-
-					case 1:
-
-						break;
-
-					case 2:
-
+						
+					default:
+						System.out.println("Invaild Option!!!");
 						break;
 
 					case 0:
@@ -193,10 +158,10 @@ public class CMSDriver
 						login = false;
 
 					}
-
+					
 				} while (selection != 0);
 			}
-
+			
 		} while (login == false);
 
 	}
