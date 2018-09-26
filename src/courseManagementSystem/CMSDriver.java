@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class CMSDriver
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		// login boolean value
 		boolean login = false;
@@ -105,8 +105,9 @@ public class CMSDriver
 					System.out.println("2 - View a Students details:");
 					System.out.println("3 - Enrol a Student in a Course:");
 					System.out.println("4 - View Course Details:");
+					System.out.println("5 - Withdraw a student from course:");
 					System.out.println("\n0 - Logout");
-					
+
 					selection = input.nextInt();
 
 					// switch, depending on option do certain action
@@ -125,9 +126,8 @@ public class CMSDriver
 						Scanner scan = new Scanner(System.in);
 						System.out.print("Please enter student ID to search:");
 						String checkID = scan.nextLine();
-						//pass student ID and specific int value
+						// pass student ID and specific int value
 						std2.viewStudentDetails(checkID, 1);
-
 						break;
 
 					case 3:
@@ -136,7 +136,7 @@ public class CMSDriver
 						Scanner scan1 = new Scanner(System.in);
 						System.out.println("Please enter student ID to enrol");
 						String enrolID = scan1.nextLine();
-						//pass student ID and specific int value
+						// pass student ID and specific int value
 						std3.viewStudentDetails(enrolID, 2);
 						break;
 
@@ -144,6 +144,14 @@ public class CMSDriver
 						Course crs = new Course("", "", 0, 2);
 						crs.viewCourseDetails();
 						break;
+
+						
+						
+					case 5:
+						Enrolment withdraw = new Enrolment();
+						withdraw.withdraw();
+					
+						break;	
 						
 					default:
 						System.out.println("Invaild Option!!!");
@@ -158,10 +166,10 @@ public class CMSDriver
 						login = false;
 
 					}
-					
+
 				} while (selection != 0);
 			}
-			
+
 		} while (login == false);
 
 	}

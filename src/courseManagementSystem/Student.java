@@ -21,7 +21,7 @@ public class Student
 	private String email;
 	private String phone;
 	
-	private double coursePrice;
+	
 	boolean exist = false;
 
 	public Student(String studentID, String firstName, String lastName, String address, String email, String phone)
@@ -98,52 +98,7 @@ public class Student
 		}
 	}
 
-	public void setCoursePrice(String courseID)
-	{
-		File file = new File(System.getProperty("user.dir"));
-		String path = file.getAbsolutePath() + "\\src\\courseDetails.txt";
-		String fileName = path;
-		String checkID = null;
-		try
-		{
-			// file reader to read the fileName variable above
-			FileReader filereader = new FileReader(fileName);
-
-			BufferedReader bufferedReader = new BufferedReader(filereader);
-			// variable for lines in the file
-			String lineInput;
-			// reader to reader through text file
-			List<String> list = new ArrayList<String>();
-			while ((lineInput = bufferedReader.readLine()) != null)
-			{
-				if (lineInput.length() > 0)
-				{
-					list.add(lineInput);
-					// array to split text on line to get user name and password
-					String[] checkCredentials = lineInput.split(" }");
-					String[] individualRecord = checkCredentials[0].split(",");
-					checkID = individualRecord[0].replace("{", "");
-				
-					Double cost = Double.parseDouble(individualRecord[3]);
-					//get course fee and set value
-					if(checkID.equals(courseID))
-					{
-						coursePrice = cost;
-					}
-				}
-			}
-			//close reader
-			bufferedReader.close();
-		} catch (FileNotFoundException ex)
-		{
-			System.out.println("Unable to open file '" + fileName + "'");
-		}
-		// catch exception if IOException
-		catch (IOException ex)
-		{
-			System.out.println("Error reading file '" + fileName + "'");
-		}
-	}
+	
 
 	public void viewStudentDetails(String checkStudentID, int selection)
 	{
@@ -205,8 +160,16 @@ public class Student
 						System.out.println(
 								"-------------------------------------------------------------------------------------"
 										+ "---------------");
+						exist =true;
+						Course crs1 = new Course("", "", 0, 2);
+						crs1.printStudentCourseDetails(studentID);
+						break;
+						
 					}
-				}	
+				
+				}
+				
+				
 				//depending on which int value passed in, do a certain 
 				//logic method
 				else if (selection == 2)
@@ -223,24 +186,12 @@ public class Student
 					if (confirm == 1)
 					{
 						Enrolment enroll = new Enrolment();
-					
 						@SuppressWarnings("resource")
 						Scanner scan2 = new Scanner(System.in);
 						System.out.println("Please enter course ID to enrol student in:");
 						String courseEnrolID = scan2.nextLine();
-						//get course price from course ID entered
-						setCoursePrice(courseEnrolID);
+						enroll.setCoursePrice(courseEnrolID,checkStudentID);
 						
-						System.out.println("Are they an existing student?:");
-						System.out.print("1. Yes \n2. No\n");
-						//if existing student, give discount
-						int input = scan2.nextInt();
-						if (input == 1)
-						{
-							coursePrice = (coursePrice/100) *80;
-						}
-						//write to file
-						enroll.enrol(courseEnrolID, checkStudentID,coursePrice );
 						break;
 					}
 					
@@ -269,8 +220,18 @@ public class Student
 					else
 						exist = false;
 				}
+				
+				
+				}
+				
+				
 			}
-		}
+			 if (selection == 1 && exist == false)
+				{
+					System.out.println("Sorry, student ID does not exist\n");
+				}
+		
+			
 			// close buffered reader
 			bufferedReader.close();
 	} catch (FileNotFoundException ex)

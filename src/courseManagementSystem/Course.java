@@ -235,4 +235,89 @@ public class Course
 			System.out.println("Error reading file '" + fileName + "'");
 		}
 	}
-}
+	
+	
+	public void printStudentCourseDetails(String checkID)
+	{
+
+		@SuppressWarnings("resource")
+		File file = new File(System.getProperty("user.dir"));
+		String path = file.getAbsolutePath() + "\\src\\student_course_details.txt";
+		String fileName = path;
+		try
+		{
+			// file reader to read the fileName variable above
+			FileReader filereader = new FileReader(fileName);
+
+			BufferedReader bufferedReader = new BufferedReader(filereader);
+			// variable for lines in the file
+			String lineInput;
+			String studentID = null;
+			int totalCourses = 0;
+			String courseName = "";
+			List<String> list = new ArrayList<String>();
+			System.out.println("\nCourses Taken:");
+			// read through document while there is a new line in the file
+			System.out.println("-------------------------------------------------------------------------------------\n");
+			System.out.printf("%10s %30s", "Course ID", "Course Name\n");
+			//System.out.println();
+			System.out.println("-------------------------------------------------------------------------------------");
+			while ((lineInput = bufferedReader.readLine()) != null)
+			{
+				if (lineInput.length() > 0)
+				{
+					list.add(lineInput);
+					// array to split text on line to get user name and password
+					String[] checkCredentials = lineInput.split(" }");
+					String[] individualRecord = checkCredentials[0].split(",");
+					courseID = individualRecord[0].replace("{", "");
+					studentID = individualRecord[1];
+				
+					if(courseID.equals("001"))
+						courseName = "Italian Cooking";
+					if(courseID.equals("002"))
+						courseName = "Seafood Cooking";
+					if(courseID.equals("003"))
+						courseName = "Sewing";
+					if(courseID.equals("004"))
+						courseName = "Creative writing";
+					if(courseID.equals("005"))
+						courseName = "Business writing";
+					
+					
+					//if correct course, add total amount, and 
+					//print out student ID and cost
+					if (studentID.equals(checkID))
+					{
+						totalCourses ++;
+						System.out.format("%10s %30s  ", courseID, courseName);
+						System.out.println();
+					}
+				}
+			}
+			System.out.println();
+			System.out.format("%15s %25d  ", "Total Courses:", totalCourses);
+			System.out.println();
+			System.out.println("-------------------------------------------------------------------------------------");
+			System.out.println();
+			bufferedReader.close();
+			
+		} catch (FileNotFoundException ex)
+		{
+			System.out.println("Unable to open file '" + fileName + "'");
+		}
+		// catch exception if IOException
+		catch (IOException ex)
+		{
+			System.out.println("Error reading file '" + fileName + "'");
+		}
+	}	
+	
+	
+	
+		
+	}
+	
+	
+	
+
