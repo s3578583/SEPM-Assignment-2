@@ -9,15 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CMSDriver
-{
+public class CMSDriver {
 
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		// login boolean value
 		boolean login = false;
-		do
-		{
+		do {
 			// scanner to get user input
 
 			@SuppressWarnings("resource")
@@ -39,8 +36,7 @@ public class CMSDriver
 
 			String fileName = path;
 
-			try
-			{
+			try {
 				// file reader to read the fileName variable above
 				FileReader filereader = new FileReader(fileName);
 
@@ -54,8 +50,7 @@ public class CMSDriver
 
 				List<String> list = new ArrayList<String>();
 				// read through document while there is a new line in the file
-				while ((lineInput = bufferedReader.readLine()) != null)
-				{
+				while ((lineInput = bufferedReader.readLine()) != null) {
 					list.add(lineInput);
 					// array to split text on line to get user name and password
 					String[] checkCredentials = lineInput.split(" ");
@@ -63,8 +58,7 @@ public class CMSDriver
 					pass = checkCredentials[1];
 
 					// condition to check if user exists in the file
-					if (userName.equals(user) && password.equals(pass))
-					{
+					if (userName.equals(user) && password.equals(pass)) {
 						System.out.println("Successfully logged in as: " + user);
 						typeOfUser = checkCredentials[2];
 						login = true;
@@ -73,8 +67,7 @@ public class CMSDriver
 
 				}
 				// not equal condition to display message to user
-				if (!userName.equals(user) && !password.equals(pass))
-				{
+				if (!userName.equals(user) && !password.equals(pass)) {
 					System.out.println("\nIncorrect password for " + userName + " user please try again");
 
 				}
@@ -82,13 +75,11 @@ public class CMSDriver
 				bufferedReader.close();
 
 				// catch exception if file not found
-			} catch (FileNotFoundException ex)
-			{
+			} catch (FileNotFoundException ex) {
 				System.out.println("Unable to open file '" + fileName + "'");
 			}
 			// catch exception if IOException
-			catch (IOException ex)
-			{
+			catch (IOException ex) {
 				System.out.println("Error reading file '" + fileName + "'");
 
 			}
@@ -96,23 +87,21 @@ public class CMSDriver
 			int selection;
 
 			// menu options for an Course manager user
-			if (typeOfUser.equals("course") && login == true)
-			{
-				do
-				{
+			if (typeOfUser.equals("course") && login == true) {
+				do {
 					System.out.println("\nPlease enter your selection:");
 					System.out.println("\n1 - Add new Student:");
 					System.out.println("2 - View a Students details:");
 					System.out.println("3 - Enrol a Student in a Course:");
 					System.out.println("4 - View Course Details:");
 					System.out.println("5 - Withdraw a student from course:");
+					System.out.println("6 - View profits:");
 					System.out.println("\n0 - Logout");
 
 					selection = input.nextInt();
 
 					// switch, depending on option do certain action
-					switch (selection)
-					{
+					switch (selection) {
 
 					case 1:
 
@@ -145,14 +134,14 @@ public class CMSDriver
 						crs.viewCourseDetails();
 						break;
 
-						
-						
 					case 5:
 						Enrolment withdraw = new Enrolment();
 						withdraw.withdraw();
-					
-						break;	
-						
+						break;
+					case 6:
+						Course crs1 = new Course("", "", 0, 2);
+						crs1.calculate();
+						break;
 					default:
 						System.out.println("Invaild Option!!!");
 						break;
