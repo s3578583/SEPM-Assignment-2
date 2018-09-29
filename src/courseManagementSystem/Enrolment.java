@@ -1,11 +1,10 @@
 package courseManagementSystem;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,14 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
 
 public class Enrolment {
 	private boolean exceeded = false;
 	private boolean exist = false;
 	private double coursePrice;
 
-	public void enrol(String courseEnrolID, String enrolID, String price) {
+	public boolean enrol(String courseEnrolID, String enrolID, String price) {
 		try {
 			BufferedReader file = new BufferedReader(new FileReader("src/student_course_details.txt"));
 			String line;
@@ -58,6 +56,7 @@ public class Enrolment {
 		} catch (Exception e) {
 			System.out.println("Problem reading file.");
 		}
+		return true;
 	}
 
 	public void writeUsingFileWriter(String courseEnrolID, String enrolID, String price) throws FileNotFoundException {
@@ -137,11 +136,12 @@ public class Enrolment {
 		}
 	}
 
-	public void setCoursePrice(String courseID, String studentID) {
+	public boolean setCoursePrice(String courseID, String studentID) {
 		File file = new File(System.getProperty("user.dir"));
 		String path = file.getAbsolutePath() + "\\src\\courseDetails.txt";
 		String fileName = path;
 		String checkID = null;
+		boolean exist = false;
 		try {
 			// file reader to read the fileName variable above
 			FileReader filereader = new FileReader(fileName);
@@ -163,12 +163,18 @@ public class Enrolment {
 					// get course fee and set value
 					if (checkID.equals(courseID)) {
 						coursePrice = cost;
+						exist = true;
 					}
 				}
 			}
+			if(exist != true) {
+				System.out.println("Course ID does not exist!!!");
+				bufferedReader.close();
+				
+			}
 			// get course price from course ID entered
 			getCourseNumber(courseID);
-			if (exceeded == false) {
+			if (exceeded == false && exist == true) {
 				@SuppressWarnings("resource")
 				Scanner scan2 = new Scanner(System.in);
 				System.out.println("Are they an existing student?:");
@@ -183,8 +189,12 @@ public class Enrolment {
 				enrol(courseID, studentID, tempCost);
 				// close reader
 				bufferedReader.close();
-			} else
+			} 
+			else if(exceeded == true) {
 				System.out.println("Unable to add student, max number has been exceeded");
+				bufferedReader.close();	
+			}
+			
 
 		} catch (FileNotFoundException ex) {
 			System.out.println("Unable to open file '" + fileName + "'");
@@ -193,9 +203,10 @@ public class Enrolment {
 		catch (IOException ex) {
 			System.out.println("Error reading file '" + fileName + "'");
 		}
+		return true;
 	}
 
-	public void withdraw() {
+	public boolean withdraw() {
 
 		File file = new File(System.getProperty("user.dir"));
 		String path = file.getAbsolutePath() + "\\src\\student_course_details.txt";
@@ -235,9 +246,13 @@ public class Enrolment {
 						courseID2 = courseID;
 						studentID2 = studentID;
 						cost2 = cost;
+						exist = true;
 					}
+					
 				}
-			}refund(courseID2,studentID2,cost2);
+			}
+			 if(exist == true) {
+			refund(courseID2,studentID2,cost2);
 			br.close();
 
 			FileWriter fw = new FileWriter(new File(fileName));
@@ -245,11 +260,17 @@ public class Enrolment {
 			fw.write(sb.toString());
 			System.out.println("Record successfully removed!!!\n");
 			fw.close();
+			 }
+			 else
+						System.out.println("Student or Course Record does not exist!!!\n");
+					
 		} catch (Exception e) {
 			System.out.println("Something went horribly wrong: " + e.getMessage());
 		}
+		return true;
 	}
-	public void refund(String courseID, String enrolID, String price) throws FileNotFoundException {
+	public boolean refund(String courseID, String enrolID, String price) throws FileNotFoundException {
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner (System.in);
 		String refundType = "";
 		System.out.print("Get refund?\n1.Yes\n2.No\n");
@@ -271,7 +292,8 @@ public class Enrolment {
 				}
 			}
 			writeUsingFileWriter2(courseID, enrolID, price, refundType);
-		} 
+		}
+		return true; 
 	}
 	public void writeUsingFileWriter2(String courseEnrolID, String enrolID, String price, String type)
 			throws FileNotFoundException {

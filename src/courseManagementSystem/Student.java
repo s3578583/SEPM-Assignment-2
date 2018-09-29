@@ -35,7 +35,7 @@ public class Student
 		this.phone = phone;
 	}
 
-	public void addStudent()
+	public boolean addStudent()
 	{
 
 		// inserting new staff details
@@ -70,7 +70,9 @@ public class Student
 				e.printStackTrace();
 			}
 			System.out.println("New student successfully added");
+			
 		}
+		return true;
 
 	}
 
@@ -100,7 +102,7 @@ public class Student
 
 	
 
-	public void viewStudentDetails(String checkStudentID, int selection)
+	public boolean viewStudentDetails(String checkStudentID, int selection)
 	{
 		File file = new File(System.getProperty("user.dir"));
 		String path = file.getAbsolutePath() + "\\src\\studentDetails.txt";
@@ -177,7 +179,10 @@ public class Student
 					@SuppressWarnings("resource")
 					Scanner scan1 = new Scanner(System.in);
 					//check student is the correct student
+		
 					viewStudentDetails(checkStudentID, 1);
+				
+					if(exist == true) {
 					System.out.println("Correct student? ");
 					System.out.println("1 - Yes, 2 - No, 0 - Quit");
 					int confirm = scan1.nextInt();
@@ -205,7 +210,15 @@ public class Student
 						viewStudentDetails(enrolID, 2);
 						break;
 					}
-				}
+					}
+					else {
+						
+						System.out.println("Student record does not exist");
+						break;
+					}
+						
+				}		
+				
 
 				else if (selection == 3)
 				{
@@ -222,18 +235,25 @@ public class Student
 				}
 				
 				
-				}
 				
+				}
+				 
 				
 			}
+			
+		
+			
+			
+			bufferedReader.close();
+			/*
 			 if (selection == 1 && exist == false)
 				{
 					System.out.println("Sorry, student ID does not exist\n");
 				}
-		
+		*/
 			
 			// close buffered reader
-			bufferedReader.close();
+			
 	} catch (FileNotFoundException ex)
 		{
 			System.out.println("Unable to open file '" + fileName + "'");
@@ -244,8 +264,9 @@ public class Student
 			System.out.println("Error reading file '" + fileName + "'");
 
 		}
+		return exist;
+		
 	}
-	
-	
-	
 }
+	
+	
