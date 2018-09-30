@@ -96,6 +96,8 @@ public class CMSDriver {
 					System.out.println("4 - View Course Details:");
 					System.out.println("5 - Withdraw a student from course:");
 					System.out.println("6 - View profits:");
+					System.out.println("7 - Grade Student:");
+					System.out.println("8 - Edit Existing Students' Details:");
 					System.out.println("\n0 - Logout");
 
 					selection = input.nextInt();
@@ -142,6 +144,20 @@ public class CMSDriver {
 						Course crs1 = new Course("", "", 0, 2);
 						crs1.calculate();
 						break;
+					case 7:
+						Student crs2 = new Student("","","","","","");
+						
+						// pass student ID 
+					
+						crs2.gradeStudent();
+						break;
+						
+					case 8:
+						Student std4 = new Student("","","","","","");
+						
+						std4.editDetails();
+						break;
+						
 					default:
 						System.out.println("Invaild Option!!!");
 						break;
