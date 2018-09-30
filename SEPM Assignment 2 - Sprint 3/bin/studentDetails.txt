@@ -1,3 +1,0 @@
-{s001,Pete,Pickels,1 long place,pete@gamil.com,040 123 456,}
-{s002,Paul,Go,1 Short Place,paul@gmail.com,03 5044 3321,}
-{s003,Lucy,Jones,1 Point Place,lucy@hotmail.com,040 000 0000,}
